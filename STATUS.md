@@ -5,7 +5,7 @@
 **Outreach sent:** none (templates only; agent does not post)  
 **Merchant / SaaS:** none  
 **Date opened:** 2026-09-07 (Europe/Stockholm)  
-**Last external-validation pass:** 2026-09-07 ~07:50 Europe/Stockholm
+**Last external-validation pass:** 2026-09-07 ~07:55 Europe/Stockholm
 
 Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesis 1).
 
@@ -40,6 +40,7 @@ Fill Actual after human posts + form live. Do not invent numbers.
 - [x] Citation Failure Corpus `corpus/` (20 snippets) committed
 - [x] Docs / GitHub Pages one-pager (`docs/`) explaining output JSON
 - [x] Awesome-list PRs opened where fit (see Notes); skips documented
+- [x] Real-world evidence dumps `examples/realworld/` + REPORT.md
 - [x] PyPI: no token → `PYPI.md` prepared for human (no invent)
 - [x] HUMAN-ONE-ACTION.md (Show HN)
 - [ ] HUMAN: create Tally/Google Form, paste URL in README
@@ -70,3 +71,15 @@ Fill Actual after human posts + form live. Do not invent numbers.
 ## Notes
 
 No outreach emails. No Show HN/Reddit/LinkedIn by agent. Primary EAA remains merchant-blocked separately; this bet does not spend the 2000 SEK pool.
+
+## Awesome PR status check (2026-09-07 ~07:55 Europe/Stockholm)
+
+| PR | State | Merged | Comments | Notes |
+|----|-------|--------|----------|-------|
+| [DavidZWZ/Awesome-Deep-Research#35](https://github.com/DavidZWZ/Awesome-Deep-Research/pull/35) | **open** | no | 0 issue comments | mergeable_state=clean; no maintainer reply yet |
+| [toolleeo/awesome-cli-apps-in-a-csv#410](https://github.com/toolleeo/awesome-cli-apps-in-a-csv/pull/410) | **open** | no | 0 issue comments | mergeable_state=clean; no maintainer reply yet |
+
+## Real-world public evidence (2026-09-07)
+
+Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.md`](examples/realworld/REPORT.md). Live check totals: **clean 6 / dead 10 / title_mismatch 4 / claim_weak 2 / total 22**. No outreach.
+

@@ -1,0 +1,62 @@
+{
+  "path": "examples/realworld/01_ip_fragmentation_brief.md",
+  "summary": {
+    "clean": 1,
+    "title_mismatch": 1,
+    "dead": 1,
+    "total": 3
+  },
+  "citations": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc791",
+      "link_text": "RFC 791 — Internet Protocol",
+      "kind": "link",
+      "line": 8,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://www.rfc-editor.org/info/rfc791/",
+      "page_title": "RFC 791: Internet Protocol | RFC Editor",
+      "title_score": 1.0,
+      "overlap_score": 0.333,
+      "claim": "Primary reference material is .",
+      "error": null,
+      "reasons": [
+        "resolved; title/claim checks passed"
+      ]
+    },
+    {
+      "url": "https://example.com/",
+      "link_text": "IPv4 Fragmentation Deep Dive — Official IETF Handbook",
+      "kind": "link",
+      "line": 12,
+      "verdict": "title_mismatch",
+      "status": 200,
+      "final_url": "https://example.com/",
+      "page_title": "Example Domain",
+      "title_score": 0.0,
+      "overlap_score": null,
+      "claim": "An agent dump incorrectly labeled it as .",
+      "error": null,
+      "reasons": [
+        "title soft-match 0.00 < 0.34"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:9/mtu-probe",
+      "link_text": "Internal MTU probe dashboard",
+      "kind": "link",
+      "line": 13,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "A secondary cite pointed at a local tooling endpoint that is not reachable from CI: .",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "path": "examples/realworld/07_agent_memo_bare_urls.md",
+  "summary": {
+    "title_mismatch": 1,
+    "clean": 1,
+    "dead": 2,
+    "total": 4
+  },
+  "citations": [
+    {
+      "url": "https://example.com/",
+      "link_text": "Official RFC Editor Operator Handbook",
+      "kind": "link",
+      "line": 15,
+      "verdict": "title_mismatch",
+      "status": 200,
+      "final_url": "https://example.com/",
+      "page_title": "Example Domain",
+      "title_score": 0.0,
+      "overlap_score": null,
+      "claim": "See the for deployment steps (planted title mismatch).",
+      "error": null,
+      "reasons": [
+        "title soft-match 0.00 < 0.34"
+      ]
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc791",
+      "link_text": "",
+      "kind": "bare",
+      "line": 5,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://www.rfc-editor.org/info/rfc791/",
+      "page_title": "RFC 791: Internet Protocol | RFC Editor",
+      "title_score": null,
+      "overlap_score": 0.25,
+      "claim": "Spec page: https://www.rfc-editor.org/rfc/rfc791",
+      "error": null,
+      "reasons": [
+        "resolved; title/claim checks passed"
+      ]
+    },
+    {
+      "url": "https://this-domain-should-not-resolve-citeguard-test.invalid/x",
+      "link_text": "",
+      "kind": "bare",
+      "line": 10,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "https://this-domain-should-not-resolve-citeguard-test.invalid/x",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:9/healthz",
+      "link_text": "",
+      "kind": "bare",
+      "line": 11,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "http://127.0.0.1:9/healthz",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    }
+  ]
+}

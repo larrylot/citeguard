@@ -1,0 +1,79 @@
+{
+  "path": "examples/realworld/05_multi_failure_stew.md",
+  "summary": {
+    "claim_weak": 1,
+    "title_mismatch": 1,
+    "dead": 2,
+    "total": 4
+  },
+  "citations": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc791",
+      "link_text": "Internet Protocol (RFC 791)",
+      "kind": "link",
+      "line": 5,
+      "verdict": "claim_weak",
+      "status": 200,
+      "final_url": "https://www.rfc-editor.org/info/rfc791/",
+      "page_title": "RFC 791: Internet Protocol | RFC Editor",
+      "title_score": 1.0,
+      "overlap_score": 0.0,
+      "claim": "Spec: — expected clean.",
+      "error": null,
+      "reasons": [
+        "claim–source overlap 0.00 < 0.12"
+      ]
+    },
+    {
+      "url": "https://example.com/",
+      "link_text": "Path MTU Discovery Operator Runbook",
+      "kind": "link",
+      "line": 6,
+      "verdict": "title_mismatch",
+      "status": 200,
+      "final_url": "https://example.com/",
+      "page_title": "Example Domain",
+      "title_score": 0.0,
+      "overlap_score": null,
+      "claim": "Mis-titled placeholder: .",
+      "error": null,
+      "reasons": [
+        "title soft-match 0.00 < 0.34"
+      ]
+    },
+    {
+      "url": "https://this-domain-should-not-resolve-citeguard-test.invalid/status",
+      "link_text": "Commercial PMTUD SaaS status page",
+      "kind": "link",
+      "line": 7,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "Dead DNS: .",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:9/blackhole",
+      "link_text": "Lab blackhole collector",
+      "kind": "link",
+      "line": 8,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "Dead local: .",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    }
+  ]
+}

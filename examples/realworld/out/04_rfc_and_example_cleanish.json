@@ -1,0 +1,61 @@
+{
+  "path": "examples/realworld/04_rfc_and_example_cleanish.md",
+  "summary": {
+    "clean": 2,
+    "dead": 1,
+    "total": 3
+  },
+  "citations": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc791",
+      "link_text": "RFC 791",
+      "kind": "link",
+      "line": 5,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://www.rfc-editor.org/info/rfc791/",
+      "page_title": "RFC 791: Internet Protocol | RFC Editor",
+      "title_score": 1.0,
+      "overlap_score": 0.5,
+      "claim": "Canonical text:",
+      "error": null,
+      "reasons": [
+        "resolved; title/claim checks passed"
+      ]
+    },
+    {
+      "url": "https://example.com/",
+      "link_text": "Example Domain",
+      "kind": "link",
+      "line": 6,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://example.com/",
+      "page_title": "Example Domain",
+      "title_score": 1.0,
+      "overlap_score": 0.4,
+      "claim": "Placeholder host used in documentation examples:",
+      "error": null,
+      "reasons": [
+        "resolved; title/claim checks passed"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:9/rfc791-errata.json",
+      "link_text": "RFC 791 annotated errata dump",
+      "kind": "link",
+      "line": 10,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "The agent also invented a footnote pointing",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "path": "examples/realworld/06_footnotes_style.md",
+  "summary": {
+    "clean": 2,
+    "dead": 1,
+    "total": 3
+  },
+  "citations": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc791",
+      "link_text": "RFC 791",
+      "kind": "link",
+      "line": 5,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://www.rfc-editor.org/info/rfc791/",
+      "page_title": "RFC 791: Internet Protocol | RFC Editor",
+      "title_score": 1.0,
+      "overlap_score": 1.0,
+      "claim": ":",
+      "error": null,
+      "reasons": [
+        "resolved; title/claim checks passed"
+      ]
+    },
+    {
+      "url": "https://example.com/",
+      "link_text": "Example Domain",
+      "kind": "link",
+      "line": 6,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://example.com/",
+      "page_title": "Example Domain",
+      "title_score": 1.0,
+      "overlap_score": 1.0,
+      "claim": ":",
+      "error": null,
+      "reasons": [
+        "resolved; title/claim checks passed"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:9/training/frag",
+      "link_text": "Training lab mirror",
+      "kind": "link",
+      "line": 7,
+      "verdict": "dead",
+      "status": null,
+      "final_url": null,
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": ":",
+      "error": "network:ConnectionError",
+      "reasons": [
+        "network:ConnectionError"
+      ]
+    }
+  ]
+}

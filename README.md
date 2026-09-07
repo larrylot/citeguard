@@ -80,6 +80,14 @@ citeguard check path/to/agent-report.md --json --no-overlap
 | `redirect_suspect` | Cross-host redirect without strong title match |
 | `unresolved` | URL missing from fixtures catalog (fixtures mode only) |
 
+## Real-world evidence dumps
+
+Synthetic agent-style Markdown under [`examples/realworld/`](examples/realworld/) (dead links, DNS failures, title bait on `example.com`, plus working RFC / Example Domain controls).
+
+- Findings table (FACT counts): [`examples/realworld/REPORT.md`](examples/realworld/REPORT.md)
+- Per-dump JSON + text: [`examples/realworld/out/`](examples/realworld/out/)
+- Live demo page: https://larrylot.github.io/citeguard/
+
 ## Citation Failure Corpus
 
 [`corpus/`](corpus/) — 20 short public-domain-style fake agent-research Markdown snippets with planted failures (`example.invalid`, title bait via `example.com` / `httpbin.org`). Documented for benchmarks. See [`corpus/README.md`](corpus/README.md).
