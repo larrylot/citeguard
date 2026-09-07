@@ -1,5 +1,8 @@
 # CiteGuard
 
+[![CI](https://github.com/larrylot/citeguard/actions/workflows/ci.yml/badge.svg)](https://github.com/larrylot/citeguard/actions/workflows/ci.yml)
+
+
 **Local CLI that verifies citations in agent / deep-research Markdown reports.**
 
 `citeguard check report.md` → per-citation verdicts: URL resolve, title/host soft-match, optional claim–source overlap.
@@ -22,6 +25,18 @@
 | Hallucination check on the checker | No LLM in the loop | Can invent “looks fine” |
 
 CiteGuard does **not** claim to prove a source supports a legal/scientific conclusion. It flags **dead links, title bait, weak overlap, and shady redirects** — the failure modes that show up in agent research dumps.
+
+## Agent skill
+
+Portable `SKILL.md` (Cursor / Claude / Codex / agentskills.io format):
+
+- Canonical: [`skill/SKILL.md`](skill/SKILL.md)
+- Cursor mirror: [`.cursor/skills/citeguard/SKILL.md`](.cursor/skills/citeguard/SKILL.md)
+- skills CLI layout: [`skills/citeguard/SKILL.md`](skills/citeguard/SKILL.md)
+
+```bash
+npx skills add larrylot/citeguard -s citeguard -y
+```
 
 ## Install
 

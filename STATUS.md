@@ -5,7 +5,7 @@
 **Outreach sent:** none (templates only; agent does not post)  
 **Merchant / SaaS:** none  
 **Date opened:** 2026-09-07 (Europe/Stockholm)  
-**Last external-validation pass:** 2026-09-07 ~08:00 Europe/Stockholm
+**Last external-validation pass:** 2026-09-07 ~08:10 Europe/Stockholm
 
 Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesis 1).
 
@@ -123,3 +123,35 @@ Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.
 - **7-day kill window starts:** 2026-09-07 — review by **2026-09-14**
 - **Pass:** ≥25 stars OR ≥20 HN points (stretch 100★ / 50pts); forks≥3
 - **Kill:** <10 stars AND weak HN (<10 pts sustained) after 7 days with public post done → fold
+
+
+## Skill / agent-registry path (2026-09-07 ~08:10 Europe/Stockholm)
+
+**Stop:** no more random awesome-RAG / awesome-list PRs (6 already open, 0 merges, 0 stars).
+
+### Skill package landed
+- Canonical: `skill/SKILL.md`
+- Cursor mirror: `.cursor/skills/citeguard/SKILL.md`
+- skills CLI layout: `skills/citeguard/SKILL.md`
+- Pushed to https://github.com/larrylot/citeguard
+
+### Registry search (accept PRs without star gates?)
+
+| Registry / list | Stars (approx) | Star / usage gate? | Fit | Action |
+|-----------------|---------------:|--------------------|-----|--------|
+| VoltAgent/awesome-agent-skills | ~34k | **YES** — “real community usage”; brand-new rejected | would fit category | **SKIP** (gate) |
+| addyosmani/agent-skills | ~93k | Heavy eval CI; engineering-lifecycle catalog | poor fit (CiteGuard is citation CLI skill) | **SKIP** |
+| heilcheng/awesome-agent-skills | ~6k | **No** star gate; quality = clear instructions / examples | Community → Development and Testing | **PR opened** (link) |
+| Prat011/awesome-llm-skills | ~1.7k | **No** star gate; accepts skill links + in-repo skills | Development & Code Tools | **PR opened** (link) |
+| sickn33/agentic-awesome-skills | ~46k | No explicit star gate but full monorepo skill + risk metadata CI | possible but heavy / spam risk | **SKIP** (avoid spam; ≤3 cap) |
+| skills.sh / vercel-labs/skills | — | No PR — install via `npx skills add larrylot/citeguard` | discovery via GitHub | **no PR** (auto) |
+
+### Skill-registry PRs
+(filled after open)
+
+### Kill clock
+See [`KILL-CLOCK.md`](KILL-CLOCK.md) — hard review **2026-09-10**. If no Show HN AND still 0 stars AND no merged PRs with inbound traffic → recommend kill/fold → EAA merchant-unblock or new thesis.
+
+### Product
+- `citeguard check --json` — **already exists** (CLI + CI smoke)
+- GitHub Actions CI + README badge — added this pass
