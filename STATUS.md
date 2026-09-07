@@ -46,7 +46,7 @@ Fill Actual after human posts + form live. Do not invent numbers.
 - [x] PyPI: no token → `PYPI.md` prepared for human (no invent)
 - [x] HUMAN-ONE-ACTION.md (Show HN)
 - [ ] HUMAN: create Tally/Google Form, paste URL in README
-- [ ] HUMAN: public post (HN / Reddit / LinkedIn templates) — **primary unlock**
+- [x] HUMAN: Show HN posted — https://news.ycombinator.com/item?id=49594410
 - [ ] HUMAN: PyPI publish per `PYPI.md` when token ready
 
 ## External validation actions taken (2026-09-07)
