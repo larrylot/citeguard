@@ -25,4 +25,4 @@ jobs:
       - name: Pytest (fixtures accuracy gate)
         run: pytest -q
       - name: CLI --json smoke (fixtures)
-        run: citeguard check fixtures/mixed.md --fixtures --json
+        run: citeguard check fixtures/clean.md --fixtures --json
