@@ -147,7 +147,11 @@ Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.
 | skills.sh / vercel-labs/skills | — | No PR — install via `npx skills add larrylot/citeguard` | discovery via GitHub | **no PR** (auto) |
 
 ### Skill-registry PRs
-(filled after open)
+1. https://github.com/heilcheng/awesome-agent-skills/pull/477 — Community → Development and Testing
+2. https://github.com/Prat011/awesome-llm-skills/pull/238 — Development & Code Tools
+
+Skipped (gates / poor fit / spam cap): VoltAgent (usage gate), addyosmani (eval/engineering pack), sickn33 (heavy monorepo; avoid 3rd spam).
+
 
 ### Kill clock
 See [`KILL-CLOCK.md`](KILL-CLOCK.md) — hard review **2026-09-10**. If no Show HN AND still 0 stars AND no merged PRs with inbound traffic → recommend kill/fold → EAA merchant-unblock or new thesis.
