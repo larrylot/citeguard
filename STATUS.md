@@ -5,7 +5,7 @@
 **Outreach sent:** none (templates only; agent does not post)  
 **Merchant / SaaS:** none  
 **Date opened:** 2026-09-07 (Europe/Stockholm)  
-**Last external-validation pass:** 2026-09-07 ~08:10 Europe/Stockholm
+**Last external-validation pass:** 2026-09-07 ~14:33 Europe/Stockholm
 
 Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesis 1).
 
@@ -13,9 +13,9 @@ Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesi
 
 | Metric | Pass | Stretch | Actual | As of |
 |--------|-----:|--------:|--------|-------|
-| GitHub stars | ≥25 | ≥100 | **0** | 2026-09-07 08:06 Europe/Stockholm |
-| Show HN points | ≥20 | ≥50 | **1** (distribution signal only; not sole kill) | 2026-09-07 08:22 Europe/Stockholm |
-| Forks or “reproduced” issues | ≥3 | ≥10 | **0** | 2026-09-07 08:06 Europe/Stockholm |
+| GitHub stars | ≥25 | ≥100 | **1** | 2026-09-07 14:33 Europe/Stockholm |
+| Show HN points | ≥20 | ≥50 | **1** (distribution signal only; not sole kill) | 2026-09-07 14:33 Europe/Stockholm |
+| Forks or “reproduced” issues | ≥3 | ≥10 | **0** | 2026-09-07 14:33 Europe/Stockholm |
 | Tally/Google waitlist | ≥20 | ≥50 | — | — |
 
 Fill Actual after human posts + form live. Do not invent numbers.
@@ -120,14 +120,15 @@ Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.
 - **URL:** https://news.ycombinator.com/item?id=49594410
 - **Posted by:** lordlarry (~2026-09-07 08:06 Europe/Stockholm)
 - **T0 metrics:** score=1, substantive comments=0 (one [dead] self-comment ignored), GitHub stars=0 forks=0, traffic views/clones today=0 (API lag possible)
+- **Current (2026-09-07 14:33 Europe/Stockholm):** score=1, substantive comments=0 (kids 49594411 deleted, 49594437 dead self-comment), GitHub stars=1 (**first star since T0=0**), forks=0, traffic views/clones=n/a (no auth), prs_merged=0. HN is distribution-only signal.
 - **7-day kill window starts:** 2026-09-07 — review by **2026-09-14**
 - **Pass:** ≥25 stars OR ≥20 HN points (stretch 100★ / 50pts); forks≥3
-- **Kill:** <10 stars AND weak HN (<10 pts sustained) after 7 days with public post done → fold
+- **Kill:** HN alone cannot kill. Multi-signal review on **2026-09-14** (stars/forks, PR merges, usage, issues, substantive feedback; HN = distribution evidence only).
 
 
 ## Skill / agent-registry path (2026-09-07 ~08:10 Europe/Stockholm)
 
-**Stop:** no more random awesome-RAG / awesome-list PRs (6 already open, 0 merges, 0 stars).
+**Stop:** no more random awesome-RAG / awesome-list PRs (6 already open, 0 merges, 1 star as of 14:33).
 
 ### Skill package landed
 - Canonical: `skill/SKILL.md`
@@ -147,14 +148,16 @@ Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.
 | skills.sh / vercel-labs/skills | — | No PR — install via `npx skills add larrylot/citeguard` | discovery via GitHub | **no PR** (auto) |
 
 ### Skill-registry PRs
-1. https://github.com/heilcheng/awesome-agent-skills/pull/477 — Community → Development and Testing
-2. https://github.com/Prat011/awesome-llm-skills/pull/238 — Development & Code Tools
+1. https://github.com/heilcheng/awesome-agent-skills/pull/477 — Community → Development and Testing — **still open**, comments=1, mergeable_state=unstable (2026-09-07 14:33 Europe/Stockholm)
+2. https://github.com/Prat011/awesome-llm-skills/pull/238 — Development & Code Tools — **still open**, comments=0, mergeable_state=clean
+
+**prs_merged=0** (none of the outbound list/registry PRs merged).
 
 Skipped (gates / poor fit / spam cap): VoltAgent (usage gate), addyosmani (eval/engineering pack), sickn33 (heavy monorepo; avoid 3rd spam).
 
 
 ### Kill clock
-See [`KILL-CLOCK.md`](KILL-CLOCK.md) — hard review **2026-09-10**. If no Show HN AND still 0 stars AND no merged PRs with inbound traffic → recommend kill/fold → EAA merchant-unblock or new thesis.
+See [`KILL-CLOCK.md`](KILL-CLOCK.md) — hard review **2026-09-14**. Multi-signal (HN cannot kill alone). Pulse 14:33: 1★ / HN 1pt / 0 merges — below pass; not a kill yet.
 
 ### Product
 - `citeguard check --json` — **already exists** (CLI + CI smoke)
@@ -162,3 +165,9 @@ See [`KILL-CLOCK.md`](KILL-CLOCK.md) — hard review **2026-09-10**. If no Show 
 
 ## Kill-rule adjustment (2026-09-07 08:22 Europe/Stockholm)
 Lars: do **not** use HN alone as kill criterion. Equal weight: stars/forks, PR acceptance, external refs, installs/usage, issues, substantive feedback. Failed HN = distribution evidence only.
+
+## Pulse (2026-09-07 14:33 Europe/Stockholm)
+
+Live public APIs (HN = distribution-only). GitHub stars **1** (first star since T0=0); Show HN score **1**, substantive comments **0**; forks **0**; views/clones **n/a** (traffic API 403 without auth); inbound PRs **0**; **prs_merged=0**.
+
+Outbound still open: heilcheng/awesome-agent-skills#477 (comments=1, mergeable_state=unstable); Prat011/awesome-llm-skills#238 (comments=0, clean); DavidZWZ#35, toolleeo#410, wauldo#1, jakemeany523#7, priyathamkat#8, Poll-The-People#16 (all open, 0 comments). Decision remains **2026-09-14**.
