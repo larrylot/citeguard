@@ -41,6 +41,8 @@ Fill Actual after human posts + form live. Do not invent numbers.
 - [x] Docs / GitHub Pages one-pager (`docs/`) explaining output JSON
 - [x] Awesome-list PRs opened where fit (see Notes); skips documented
 - [x] Real-world evidence dumps `examples/realworld/` + REPORT.md
+- [x] `docs/vs-alternatives.md` + Pages/README link
+- [x] Dockerfile for `docker run` demo
 - [x] PyPI: no token → `PYPI.md` prepared for human (no invent)
 - [x] HUMAN-ONE-ACTION.md (Show HN)
 - [ ] HUMAN: create Tally/Google Form, paste URL in README
@@ -55,18 +57,25 @@ Fill Actual after human posts + form live. Do not invent numbers.
 | Release | https://github.com/larrylot/citeguard/releases/tag/v0.1.0 |
 | Corpus | `corpus/` 20 MD + README (pushed) |
 | Pages | **live** https://larrylot.github.io/citeguard/ (`docs/` + `.nojekyll`) |
-| Awesome PRs | Opened 2 (see below); skipped lists that require stars/age or “must use AI” |
+| Awesome PRs | Opened 6 total (see below); skipped lists that require stars/age or “must use AI” |
 | PyPI | Blocked — no `~/.pypirc` / `TWINE_*` / twine; `PYPI.md` written for human |
 | Portfolio | CiteGuard elevated active signal; CSL demoted scrap/parked |
 
 ### Awesome PRs opened
 1. https://github.com/DavidZWZ/Awesome-Deep-Research/pull/35 — Open-Source Implementations (deep-research citation verifier fit)
 2. https://github.com/toolleeo/awesome-cli-apps-in-a-csv/pull/410 — `data/apps.csv` text-processing
+3. https://github.com/wauldo/awesome-rag-hallucination/pull/1 — Detection tools table
+4. https://github.com/jakemeany523/awesome-llm-evaluation/pull/7 — Evaluation Frameworks
+5. https://github.com/priyathamkat/Awesome-LLM-Evaluation/pull/8 — Tools
+6. https://github.com/Poll-The-People/awesome-rag/pull/16 — Response Quality / Hallucination
 
 ### Awesome lists skipped (why)
 - `agarrharr/awesome-cli-apps` — requires ≥20 stars and ≥3 months age
 - `kyrolabs/awesome-agents` — rejects brand-new repos without traction
 - `jamesmurdza/awesome-ai-devtools` — checklist requires tool that **uses AI**; CiteGuard is deterministic HTTP, not AI-powered
+- `onmyway133/awesome-cli` — requires tools with >1k GitHub stars
+- `Siilwyn/awesome-cli-tools` — prefers maintained >1 year + single-binary; CiteGuard is young Python CLI
+- `Scottcjn/awesome-agents` — rejects personal projects with no users (0-star risk)
 
 ## Notes
 
@@ -89,8 +98,8 @@ Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.
 |------|--------|
 | Stars citeguard | 0 |
 | Stars en549-skill | 0 |
-| vs-alternatives |  (+ README + Pages link) |
-| Dockerfile | root  (docker not installed on agent box; untested build) |
+| vs-alternatives | `docs/vs-alternatives.md` (+ README + Pages link) |
+| Dockerfile | root `Dockerfile` (docker not installed on agent box; untested build) |
 | Prior awesome PR comments | none on #35 / #410 — no replies sent |
 | New awesome PRs | #1 wauldo, #7 jakemeany, #8 priyathamkat, #16 Poll-The-People (URLs above) |
 
