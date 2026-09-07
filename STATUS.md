@@ -35,7 +35,7 @@ Fill Actual after human posts + form live. Do not invent numbers.
 - [x] WAITLIST.md
 - [ ] HUMAN: create Tally/Google Form, paste URL in README
 - [ ] HUMAN: public post (HN / Reddit / LinkedIn templates)
-- [ ] GitHub repo public + push (if auth available)
+- [x] GitHub repo public + push: https://github.com/larrylot/citeguard
 
 ## Notes
 
