@@ -14,7 +14,7 @@ Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesi
 | Metric | Pass | Stretch | Actual | As of |
 |--------|-----:|--------:|--------|-------|
 | GitHub stars | ≥25 | ≥100 | **0** | 2026-09-07 08:06 Europe/Stockholm |
-| Show HN points | ≥20 | ≥50 | **1** | 2026-09-07 08:06 Europe/Stockholm — https://news.ycombinator.com/item?id=49594410 |
+| Show HN points | ≥20 | ≥50 | **1** (distribution signal only; not sole kill) | 2026-09-07 08:22 Europe/Stockholm |
 | Forks or “reproduced” issues | ≥3 | ≥10 | **0** | 2026-09-07 08:06 Europe/Stockholm |
 | Tally/Google waitlist | ≥20 | ≥50 | — | — |
 
@@ -159,3 +159,6 @@ See [`KILL-CLOCK.md`](KILL-CLOCK.md) — hard review **2026-09-10**. If no Show 
 ### Product
 - `citeguard check --json` — **already exists** (CLI + CI smoke)
 - GitHub Actions CI + README badge — added this pass
+
+## Kill-rule adjustment (2026-09-07 08:22 Europe/Stockholm)
+Lars: do **not** use HN alone as kill criterion. Equal weight: stars/forks, PR acceptance, external refs, installs/usage, issues, substantive feedback. Failed HN = distribution evidence only.
