@@ -1,0 +1,13 @@
+{
+  "report": "dead_link.md",
+  "citations": [
+    {
+      "url": "https://example.invalid/dead-citation-404",
+      "verdict": "dead"
+    },
+    {
+      "url": "https://example.invalid/network-fail",
+      "verdict": "dead"
+    }
+  ]
+}

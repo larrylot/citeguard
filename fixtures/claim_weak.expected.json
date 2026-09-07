@@ -1,0 +1,9 @@
+{
+  "report": "claim_weak.md",
+  "citations": [
+    {
+      "url": "https://example.invalid/claim-mismatch-climate",
+      "verdict": "claim_weak"
+    }
+  ]
+}

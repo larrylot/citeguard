@@ -1,0 +1,9 @@
+{
+  "report": "http_error.md",
+  "citations": [
+    {
+      "url": "https://httpbin.org/status/500",
+      "verdict": "http_error"
+    }
+  ]
+}

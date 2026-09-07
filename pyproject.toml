@@ -1,0 +1,38 @@
+[project]
+name = "citeguard"
+version = "0.1.0"
+description = "Local CLI that verifies citations in agent/deep-research Markdown reports"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Lars Örtegren" }]
+keywords = ["citations", "markdown", "agents", "research", "verification"]
+dependencies = [
+  "requests>=2.31.0",
+  "beautifulsoup4>=4.12.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+citeguard = "citeguard.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/larrylot/citeguard"
+Issues = "https://github.com/larrylot/citeguard/issues"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["citeguard*"]
+
+[tool.setuptools.package-data]
+citeguard = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

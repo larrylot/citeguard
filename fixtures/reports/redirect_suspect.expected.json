@@ -1,0 +1,9 @@
+{
+  "report": "redirect_suspect.md",
+  "citations": [
+    {
+      "url": "https://old.example.invalid/docs-moved",
+      "verdict": "redirect_suspect"
+    }
+  ]
+}

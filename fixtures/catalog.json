@@ -1,0 +1,71 @@
+{
+  "https://docs.python.org/3/tutorial/": {
+    "status": 200,
+    "page": "python-docs.html",
+    "final_url": "https://docs.python.org/3/tutorial/"
+  },
+  "https://requests.readthedocs.io/en/latest/": {
+    "status": 200,
+    "page": "requests-docs.html",
+    "final_url": "https://requests.readthedocs.io/en/latest/"
+  },
+  "https://www.crummy.com/software/BeautifulSoup/bs4/doc/": {
+    "status": 200,
+    "page": "bs4-docs.html",
+    "final_url": "https://www.crummy.com/software/BeautifulSoup/bs4/doc/"
+  },
+  "https://opensource.org/licenses/MIT": {
+    "status": 200,
+    "page": "mit-license.html",
+    "final_url": "https://opensource.org/licenses/MIT"
+  },
+  "https://example.invalid/python-asyncio-guide": {
+    "status": 200,
+    "page": "wrong-title-seo.html",
+    "final_url": "https://example.invalid/python-asyncio-guide"
+  },
+  "https://example.invalid/dead-citation-404": {
+    "status": 404,
+    "error": "http_404",
+    "final_url": "https://example.invalid/dead-citation-404"
+  },
+  "https://example.invalid/network-fail": {
+    "status": null,
+    "error": "network:ConnectionError"
+  },
+  "https://fastapi.tiangolo.com/": {
+    "status": 200,
+    "page": "fastapi-docs.html",
+    "final_url": "https://fastapi.tiangolo.com/"
+  },
+  "https://docs.pytest.org/en/stable/": {
+    "status": 200,
+    "page": "pytest-docs.html",
+    "final_url": "https://docs.pytest.org/en/stable/"
+  },
+  "https://docs.github.com/en/actions": {
+    "status": 200,
+    "page": "github-actions.html",
+    "final_url": "https://docs.github.com/en/actions"
+  },
+  "https://peps.python.org/pep-0008/": {
+    "status": 200,
+    "page": "pep8.html",
+    "final_url": "https://peps.python.org/pep-0008/"
+  },
+  "https://example.invalid/claim-mismatch-climate": {
+    "status": 200,
+    "page": "climate-unrelated.html",
+    "final_url": "https://example.invalid/claim-mismatch-climate"
+  },
+  "https://old.example.invalid/docs-moved": {
+    "status": 200,
+    "page": "redirect-target.html",
+    "final_url": "https://spam.example.invalid/gadgets"
+  },
+  "https://httpbin.org/status/500": {
+    "status": 500,
+    "error": "http_500",
+    "final_url": "https://httpbin.org/status/500"
+  }
+}

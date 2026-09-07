@@ -1,0 +1,17 @@
+{
+  "report": "clean.md",
+  "citations": [
+    {
+      "url": "https://docs.python.org/3/tutorial/",
+      "verdict": "clean"
+    },
+    {
+      "url": "https://requests.readthedocs.io/en/latest/",
+      "verdict": "clean"
+    },
+    {
+      "url": "https://www.crummy.com/software/BeautifulSoup/bs4/doc/",
+      "verdict": "clean"
+    }
+  ]
+}

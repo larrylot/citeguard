@@ -1,0 +1,25 @@
+{
+  "report": "mixed.md",
+  "citations": [
+    {
+      "url": "https://docs.github.com/en/actions",
+      "verdict": "clean"
+    },
+    {
+      "url": "https://docs.pytest.org/en/stable/",
+      "verdict": "clean"
+    },
+    {
+      "url": "https://example.invalid/dead-citation-404",
+      "verdict": "dead"
+    },
+    {
+      "url": "https://example.invalid/python-asyncio-guide",
+      "verdict": "title_mismatch"
+    },
+    {
+      "url": "https://opensource.org/licenses/MIT",
+      "verdict": "clean"
+    }
+  ]
+}

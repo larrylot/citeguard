@@ -1,0 +1,9 @@
+{
+  "report": "title_mismatch.md",
+  "citations": [
+    {
+      "url": "https://example.invalid/python-asyncio-guide",
+      "verdict": "title_mismatch"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "report": "footnotes.md",
+  "citations": [
+    {
+      "url": "https://peps.python.org/pep-0008/",
+      "verdict": "clean"
+    },
+    {
+      "url": "https://fastapi.tiangolo.com/",
+      "verdict": "clean"
+    }
+  ]
+}
