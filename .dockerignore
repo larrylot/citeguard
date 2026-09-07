@@ -1,0 +1,12 @@
+.venv
+.pytest_cache
+**/__pycache__
+*.egg-info
+.git
+examples
+STATUS.md
+HUMAN-ONE-ACTION.md
+POSTS.md
+SHOW_HN.md
+WAITLIST.md
+PYPI.md

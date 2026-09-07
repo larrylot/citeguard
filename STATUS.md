@@ -5,7 +5,7 @@
 **Outreach sent:** none (templates only; agent does not post)  
 **Merchant / SaaS:** none  
 **Date opened:** 2026-09-07 (Europe/Stockholm)  
-**Last external-validation pass:** 2026-09-07 ~07:55 Europe/Stockholm
+**Last external-validation pass:** 2026-09-07 ~08:00 Europe/Stockholm
 
 Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesis 1).
 
@@ -13,9 +13,9 @@ Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesi
 
 | Metric | Pass | Stretch | Actual | As of |
 |--------|-----:|--------:|--------|-------|
-| GitHub stars | ≥25 | ≥100 | — | — |
+| GitHub stars | ≥25 | ≥100 | 0 | 2026-09-07 ~08:00 Europe/Stockholm |
 | Show HN points (if human posts) | ≥20 | ≥50 | — | — |
-| Forks or “reproduced” issues | ≥3 | ≥10 | — | — |
+| Forks or “reproduced” issues | ≥3 | ≥10 | 0 | 2026-09-07 ~08:00 Europe/Stockholm |
 | Tally/Google waitlist | ≥20 | ≥50 | — | — |
 
 Fill Actual after human posts + form live. Do not invent numbers.
@@ -82,4 +82,26 @@ No outreach emails. No Show HN/Reddit/LinkedIn by agent. Primary EAA remains mer
 ## Real-world public evidence (2026-09-07)
 
 Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.md`](examples/realworld/REPORT.md). Live check totals: **clean 6 / dead 10 / title_mismatch 4 / claim_weak 2 / total 22**. No outreach.
+
+## External validation pass (2026-09-07 ~08:00 Europe/Stockholm)
+
+| Item | Result |
+|------|--------|
+| Stars citeguard | 0 |
+| Stars en549-skill | 0 |
+| vs-alternatives |  (+ README + Pages link) |
+| Dockerfile | root  (docker not installed on agent box; untested build) |
+| Prior awesome PR comments | none on #35 / #410 — no replies sent |
+| New awesome PRs | #1 wauldo, #7 jakemeany, #8 priyathamkat, #16 Poll-The-People (URLs above) |
+
+### Awesome PR status (all open as of this pass)
+
+| PR | State | Comments |
+|----|-------|----------|
+| [DavidZWZ/Awesome-Deep-Research#35](https://github.com/DavidZWZ/Awesome-Deep-Research/pull/35) | open | 0 |
+| [toolleeo/awesome-cli-apps-in-a-csv#410](https://github.com/toolleeo/awesome-cli-apps-in-a-csv/pull/410) | open | 0 |
+| [wauldo/awesome-rag-hallucination#1](https://github.com/wauldo/awesome-rag-hallucination/pull/1) | open | 0 |
+| [jakemeany523/awesome-llm-evaluation#7](https://github.com/jakemeany523/awesome-llm-evaluation/pull/7) | open | 0 |
+| [priyathamkat/Awesome-LLM-Evaluation#8](https://github.com/priyathamkat/Awesome-LLM-Evaluation/pull/8) | open | 0 |
+| [Poll-The-People/awesome-rag#16](https://github.com/Poll-The-People/awesome-rag/pull/16) | open | 0 |
 

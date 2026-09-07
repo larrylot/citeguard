@@ -96,6 +96,15 @@ Synthetic agent-style Markdown under [`examples/realworld/`](examples/realworld/
 
 One-page JSON output demo: [`docs/index.html`](docs/index.html) (GitHub Pages: https://larrylot.github.io/citeguard/).
 
+- [CiteGuard vs alternatives](docs/vs-alternatives.md) — honest comparison vs “ask ChatGPT”, LinkChecker, html-proofer, ReportBench (FACT / ASSUMPTION labeled)
+
+## Docker
+
+```bash
+docker build -t citeguard .
+docker run --rm -v "$PWD":/data -w /data citeguard check fixtures/mixed.md --fixtures
+```
+
 ## Fixtures
 
 `fixtures/` ships **9** Markdown reports + `*.expected.json` + HTML pages + `catalog.json` for offline resolve:
