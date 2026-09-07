@@ -13,9 +13,9 @@ Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesi
 
 | Metric | Pass | Stretch | Actual | As of |
 |--------|-----:|--------:|--------|-------|
-| GitHub stars | ≥25 | ≥100 | 0 | 2026-09-07 ~08:00 Europe/Stockholm |
-| Show HN points (if human posts) | ≥20 | ≥50 | — | — |
-| Forks or “reproduced” issues | ≥3 | ≥10 | 0 | 2026-09-07 ~08:00 Europe/Stockholm |
+| GitHub stars | ≥25 | ≥100 | **0** | 2026-09-07 08:06 Europe/Stockholm |
+| Show HN points | ≥20 | ≥50 | **1** | 2026-09-07 08:06 Europe/Stockholm — https://news.ycombinator.com/item?id=49594410 |
+| Forks or “reproduced” issues | ≥3 | ≥10 | **0** | 2026-09-07 08:06 Europe/Stockholm |
 | Tally/Google waitlist | ≥20 | ≥50 | — | — |
 
 Fill Actual after human posts + form live. Do not invent numbers.
@@ -114,3 +114,12 @@ Committed `examples/realworld/` — 7 synthetic dumps + `out/*.json` + [`REPORT.
 | [priyathamkat/Awesome-LLM-Evaluation#8](https://github.com/priyathamkat/Awesome-LLM-Evaluation/pull/8) | open | 0 |
 | [Poll-The-People/awesome-rag#16](https://github.com/Poll-The-People/awesome-rag/pull/16) | open | 0 |
 
+
+
+## Show HN LIVE
+- **URL:** https://news.ycombinator.com/item?id=49594410
+- **Posted by:** lordlarry (~2026-09-07 08:06 Europe/Stockholm)
+- **T0 metrics:** score=1, substantive comments=0 (one [dead] self-comment ignored), GitHub stars=0 forks=0, traffic views/clones today=0 (API lag possible)
+- **7-day kill window starts:** 2026-09-07 — review by **2026-09-14**
+- **Pass:** ≥25 stars OR ≥20 HN points (stretch 100★ / 50pts); forks≥3
+- **Kill:** <10 stars AND weak HN (<10 pts sustained) after 7 days with public post done → fold
