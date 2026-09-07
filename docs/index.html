@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CiteGuard — citation verifier for agent Markdown</title>
+  <style>
+    :root { color-scheme: light dark; --fg: #1a1a1a; --muted: #555; --border: #ddd; --code-bg: #f4f4f5; --ok: #0a7; --bad: #c33; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg: #eee; --muted: #aaa; --border: #333; --code-bg: #1e1e22; --ok: #3c9; --bad: #f66; }
+    }
+    body { font-family: ui-sans-serif, system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1.25rem; color: var(--fg); line-height: 1.55; }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .tag { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    a { color: inherit; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85rem; }
+    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.95rem; }
+    th, td { border: 1px solid var(--border); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; }
+    .ok { color: var(--ok); font-weight: 600; }
+    .bad { color: var(--bad); font-weight: 600; }
+    .box { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.25rem 0; }
+    footer { margin-top: 2.5rem; color: var(--muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>CiteGuard</h1>
+  <p class="tag">Local CLI that verifies citations in agent / deep-research Markdown reports · <a href="https://github.com/larrylot/citeguard">github.com/larrylot/citeguard</a></p>
+
+  <p><code>citeguard check report.md --json</code> returns deterministic per-URL verdicts: resolve, title soft-match, optional claim–source overlap. No API keys. No telemetry. Offline <code>--fixtures</code> mode for CI.</p>
+
+  <div class="box">
+    <strong>Quick demo</strong>
+    <pre>pip install -e .
+citeguard check fixtures/mixed.md --fixtures --json</pre>
+  </div>
+
+  <h2>Output JSON shape</h2>
+  <p>Top-level object from <code>ReportResult.to_dict()</code>:</p>
+  <pre>{
+  "path": "fixtures/mixed.md",
+  "summary": {
+    "clean": 3,
+    "dead": 1,
+    "title_mismatch": 1,
+    "total": 5
+  },
+  "citations": [
+    {
+      "url": "https://docs.github.com/en/actions",
+      "link_text": "GitHub Actions documentation",
+      "kind": "link",
+      "line": 3,
+      "verdict": "clean",
+      "status": 200,
+      "final_url": "https://docs.github.com/en/actions",
+      "page_title": "GitHub Actions documentation - GitHub Docs",
+      "title_score": 1.0,
+      "overlap_score": 0.8,
+      "claim": "GitHub Actions automates workflows in your repository",
+      "error": null,
+      "reasons": ["resolved; title/claim checks passed"]
+    },
+    {
+      "url": "https://example.invalid/dead-citation-404",
+      "link_text": "Vanished paper",
+      "kind": "link",
+      "line": 7,
+      "verdict": "dead",
+      "status": 404,
+      "final_url": "https://example.invalid/dead-citation-404",
+      "page_title": null,
+      "title_score": null,
+      "overlap_score": null,
+      "claim": "A fabricated cite points here: .",
+      "error": "http_404",
+      "reasons": ["http_404"]
+    }
+  ]
+}</pre>
+
+  <h2>Verdicts</h2>
+  <table>
+    <thead><tr><th>verdict</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ok">clean</span></td><td>Resolved; title/claim checks passed</td></tr>
+      <tr><td><span class="bad">dead</span></td><td>404 or network failure</td></tr>
+      <tr><td><span class="bad">http_error</span></td><td>Non-success HTTP (e.g. 500)</td></tr>
+      <tr><td><span class="bad">title_mismatch</span></td><td>Link text soft-match vs <code>&lt;title&gt;</code> too low</td></tr>
+      <tr><td><span class="bad">claim_weak</span></td><td>Claim sentence tokens barely appear in page text</td></tr>
+      <tr><td><span class="bad">redirect_suspect</span></td><td>Cross-host redirect without strong title match</td></tr>
+      <tr><td>unresolved</td><td>URL missing from fixtures catalog (fixtures mode only)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Fields cheat-sheet</h2>
+  <table>
+    <thead><tr><th>field</th><th>notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>summary</code></td><td>Counts per verdict + <code>total</code></td></tr>
+      <tr><td><code>citations[].kind</code></td><td><code>link</code> | <code>footnote</code> | <code>bare</code></td></tr>
+      <tr><td><code>title_score</code></td><td>0–1 soft overlap of link text vs page title</td></tr>
+      <tr><td><code>overlap_score</code></td><td>0–1 claim vs page body token overlap (optional; disable with <code>--no-overlap</code>)</td></tr>
+      <tr><td><code>reasons</code></td><td>Human-readable explanation list</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Benchmarks</h2>
+  <p>Planted CI fixtures: <a href="https://github.com/larrylot/citeguard/tree/main/fixtures"><code>fixtures/</code></a>. Broader failure corpus: <a href="https://github.com/larrylot/citeguard/tree/main/corpus"><code>corpus/</code></a> (Citation Failure Corpus).</p>
+
+  <footer>
+    MIT · Exploration bet · Agent does not post Show HN — see <code>SHOW_HN.md</code> in the repo.
+  </footer>
+</body>
+</html>

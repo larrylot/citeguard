@@ -1,10 +1,11 @@
 # CiteGuard — STATUS
 
-**Lane:** Exploration bet (The Lord)  
+**Lane:** Exploration bet (The Lord) — **active signal bet** (elevated 2026-09-07)  
 **Capital:** 0 SEK  
-**Outreach sent:** none (templates only)  
+**Outreach sent:** none (templates only; agent does not post)  
 **Merchant / SaaS:** none  
-**Date opened:** 2026-09-07 (Europe/Stockholm)
+**Date opened:** 2026-09-07 (Europe/Stockholm)  
+**Last external-validation pass:** 2026-09-07 ~07:50 Europe/Stockholm
 
 Source thesis: `/workspace/venture/exploration/2026-09-07-no-merchant.md` (Thesis 1).
 
@@ -33,10 +34,30 @@ Fill Actual after human posts + form live. Do not invent numbers.
 - [x] pytest accuracy gate ≥80%
 - [x] SHOW_HN.md + POSTS.md (human)
 - [x] WAITLIST.md
-- [ ] HUMAN: create Tally/Google Form, paste URL in README
-- [ ] HUMAN: public post (HN / Reddit / LinkedIn templates)
 - [x] GitHub repo public + push: https://github.com/larrylot/citeguard
+- [x] GitHub topics: citation, cli, llm, agents, markdown, research, hallucination, python, validation
+- [x] GitHub Release v0.1.0 (notes → fixtures demo)
+- [x] Citation Failure Corpus `corpus/` (20 snippets) committed
+- [x] Docs / GitHub Pages one-pager (`docs/`) explaining output JSON
+- [x] Awesome-list PRs opened where fit (see Notes); skips documented
+- [x] PyPI: no token → `PYPI.md` prepared for human (no invent)
+- [x] HUMAN-ONE-ACTION.md (Show HN)
+- [ ] HUMAN: create Tally/Google Form, paste URL in README
+- [ ] HUMAN: public post (HN / Reddit / LinkedIn templates) — **primary unlock**
+- [ ] HUMAN: PyPI publish per `PYPI.md` when token ready
+
+## External validation actions taken (2026-09-07)
+
+| Action | Result |
+|--------|--------|
+| Topics | Set (incl. `hallucination`, not typo `hallucation`) |
+| Release | v0.1.0 — see GitHub Releases |
+| Corpus | `corpus/` 20 MD + README |
+| Pages | `docs/` site; Pages enabled via `gh` if API allowed |
+| Awesome PRs | Opened only where guidelines allow brand-new CLI; others skipped |
+| PyPI | Blocked — no twine/token; `PYPI.md` written |
+| Portfolio | CiteGuard elevated active signal; CSL demoted scrap/parked |
 
 ## Notes
 
-No outreach. Primary EAA remains merchant-blocked separately; this bet does not spend the 2000 SEK pool.
+No outreach emails. No Show HN/Reddit/LinkedIn by agent. Primary EAA remains merchant-blocked separately; this bet does not spend the 2000 SEK pool.

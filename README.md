@@ -80,6 +80,14 @@ citeguard check path/to/agent-report.md --json --no-overlap
 | `redirect_suspect` | Cross-host redirect without strong title match |
 | `unresolved` | URL missing from fixtures catalog (fixtures mode only) |
 
+## Citation Failure Corpus
+
+[`corpus/`](corpus/) — 20 short public-domain-style fake agent-research Markdown snippets with planted failures (`example.invalid`, title bait via `example.com` / `httpbin.org`). Documented for benchmarks. See [`corpus/README.md`](corpus/README.md).
+
+## Docs / demo page
+
+One-page JSON output demo: [`docs/index.html`](docs/index.html) (GitHub Pages: https://larrylot.github.io/citeguard/).
+
 ## Fixtures
 
 `fixtures/` ships **9** Markdown reports + `*.expected.json` + HTML pages + `catalog.json` for offline resolve:
