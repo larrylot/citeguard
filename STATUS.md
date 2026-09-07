@@ -50,13 +50,22 @@ Fill Actual after human posts + form live. Do not invent numbers.
 
 | Action | Result |
 |--------|--------|
-| Topics | Set (incl. `hallucination`, not typo `hallucation`) |
-| Release | v0.1.0 — see GitHub Releases |
-| Corpus | `corpus/` 20 MD + README |
-| Pages | `docs/` site; Pages enabled via `gh` if API allowed |
-| Awesome PRs | Opened only where guidelines allow brand-new CLI; others skipped |
-| PyPI | Blocked — no twine/token; `PYPI.md` written |
+| Topics | Set: citation, cli, llm, agents, markdown, research, hallucination, python, validation |
+| Release | https://github.com/larrylot/citeguard/releases/tag/v0.1.0 |
+| Corpus | `corpus/` 20 MD + README (pushed) |
+| Pages | **live** https://larrylot.github.io/citeguard/ (`docs/` + `.nojekyll`) |
+| Awesome PRs | Opened 2 (see below); skipped lists that require stars/age or “must use AI” |
+| PyPI | Blocked — no `~/.pypirc` / `TWINE_*` / twine; `PYPI.md` written for human |
 | Portfolio | CiteGuard elevated active signal; CSL demoted scrap/parked |
+
+### Awesome PRs opened
+1. https://github.com/DavidZWZ/Awesome-Deep-Research/pull/35 — Open-Source Implementations (deep-research citation verifier fit)
+2. https://github.com/toolleeo/awesome-cli-apps-in-a-csv/pull/410 — `data/apps.csv` text-processing
+
+### Awesome lists skipped (why)
+- `agarrharr/awesome-cli-apps` — requires ≥20 stars and ≥3 months age
+- `kyrolabs/awesome-agents` — rejects brand-new repos without traction
+- `jamesmurdza/awesome-ai-devtools` — checklist requires tool that **uses AI**; CiteGuard is deterministic HTTP, not AI-powered
 
 ## Notes
 
