@@ -35,10 +35,10 @@ def _claim_near(lines: list[str], line_idx: int, link_text: str = "") -> str:
         parts = SENTENCE_SPLIT.split(cleaned)
         claim = (parts[-1] if parts else cleaned).strip()
         claim = re.sub(
-            r"(?i)\b(according to|per|see|via|from|at|in)\s*[.,;:]*\s*$",
+            r"(?i)\b(according to|per|see|via|from|at|in)(\s+the)?\s*[.,;:]*\s*$",
             "",
             claim,
-        ).strip(" -")
+        ).strip(" -,")
         return claim
     # Fall back to previous non-empty line
     for i in range(line_idx - 1, max(-1, line_idx - 4), -1):
