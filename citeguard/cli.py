@@ -9,47 +9,43 @@ from pathlib import Path
 
 from citeguard import __version__
 from citeguard.check import check_report
+from citeguard.models import VERDICTS
+
+DEFAULT_FAIL_ON = ",".join(v for v in VERDICTS if v != "clean")
 
 
 def _pkg_fixtures() -> Path:
-    # Default fixtures live next to the project when running from source
-    here = Path(__file__).resolve().parent.parent / "fixtures"
-    return here
+    return Path(__file__).resolve().parent.parent / "fixtures"
 
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="citeguard",
-        description="Verify citations in agent/deep-research Markdown reports (local, no API keys).",
+        description="Check citations in Markdown research reports. Heuristics do not prove factual support.",
     )
     p.add_argument("--version", action="version", version=f"citeguard {__version__}")
     sub = p.add_subparsers(dest="cmd", required=True)
-
     check = sub.add_parser("check", help="Check citations in a Markdown file")
-    check.add_argument("report", help="Path to Markdown report")
+    check.add_argument("report", help="Path to the Markdown report")
     check.add_argument(
-        "--fixtures",
-        nargs="?",
-        const="__default__",
-        default=None,
-        help="Offline mode: use fixtures catalog (optional path; default: ./fixtures)",
+        "--fixtures", nargs="?", const="__default__", default=None,
+        help="Offline fixture catalog directory (default: ./fixtures)",
+    )
+    check.add_argument("--no-overlap", action="store_true", help="Disable claim token overlap")
+    check.add_argument("--json", action="store_true", help="Output machine-readable JSON")
+    check.add_argument(
+        "--fail-on", default=DEFAULT_FAIL_ON,
+        help="Comma-separated verdicts causing exit 1; default: all except clean",
+    )
+    check.add_argument("--timeout", type=float, default=12.0, help="HTTP timeout in seconds")
+    check.add_argument(
+        "--max-html-bytes", type=int, default=2 * 1024 * 1024,
+        help="Maximum downloaded HTML bytes per URL (default: 2097152)",
     )
     check.add_argument(
-        "--no-overlap",
-        action="store_true",
-        help="Skip claim–source token overlap check",
+        "--allow-private", action="store_true",
+        help="DANGEROUS: allow localhost/private IP destinations for trusted local reports",
     )
-    check.add_argument(
-        "--json",
-        action="store_true",
-        help="Emit machine-readable JSON",
-    )
-    check.add_argument(
-        "--fail-on",
-        default="dead,http_error,title_mismatch,claim_weak,redirect_suspect",
-        help="Comma-separated verdicts that make exit code 1 (default: all bad)",
-    )
-    check.add_argument("--timeout", type=float, default=12.0, help="HTTP timeout seconds")
     return p
 
 
@@ -59,13 +55,11 @@ def _print_human(result) -> None:
     print("-" * 60)
     for c in result.citations:
         flag = {
-            "clean": "OK",
-            "dead": "DEAD",
-            "http_error": "ERR",
-            "title_mismatch": "TITLE",
-            "claim_weak": "WEAK",
-            "redirect_suspect": "REDIR",
-            "unresolved": "?",
+            "clean": "OK", "dead": "DEAD", "http_error": "ERR",
+            "title_mismatch": "TITLE", "claim_weak": "WEAK",
+            "redirect_suspect": "REDIR", "unresolved": "?",
+            "unverifiable": "UNKNOWN", "unchecked": "UNCHECKED",
+            "blocked": "BLOCKED",
         }.get(c.verdict, c.verdict.upper())
         title_bit = f' title="{c.page_title}"' if c.page_title else ""
         score_bit = ""
@@ -87,40 +81,51 @@ def _print_human(result) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.cmd != "check":
+        parser.print_help()
+        return 2
 
-    if args.cmd == "check":
-        fixtures_root = None
-        if args.fixtures is not None:
-            if args.fixtures == "__default__":
-                cand = Path("fixtures")
-                fixtures_root = cand if cand.exists() else _pkg_fixtures()
-            else:
-                fixtures_root = Path(args.fixtures)
-            if not (Path(fixtures_root) / "catalog.json").exists():
-                print(
-                    f"error: fixtures catalog not found at {fixtures_root}/catalog.json",
-                    file=sys.stderr,
-                )
-                return 2
+    if not (args.timeout > 0) or args.max_html_bytes <= 0:
+        print("error: timeout and max-html-bytes must be positive", file=sys.stderr)
+        return 2
+    requested = {x.strip() for x in args.fail_on.split(",") if x.strip()}
+    if unknown := requested.difference(VERDICTS):
+        print(f"error: unknown --fail-on verdict(s): {', '.join(sorted(unknown))}", file=sys.stderr)
+        return 2
 
+    fixtures_root = None
+    if args.fixtures is not None:
+        if args.fixtures == "__default__":
+            cand = Path("fixtures")
+            fixtures_root = cand if cand.exists() else _pkg_fixtures()
+        else:
+            fixtures_root = Path(args.fixtures)
+        if not (Path(fixtures_root) / "catalog.json").is_file():
+            print(f"error: fixtures catalog missing: {fixtures_root}/catalog.json", file=sys.stderr)
+            return 2
+
+    try:
         result = check_report(
             args.report,
             fixtures_root=fixtures_root,
             check_overlap=not args.no_overlap,
             timeout=args.timeout,
+            allow_private=args.allow_private,
+            max_html_bytes=args.max_html_bytes,
         )
+    except (OSError, UnicodeError, ValueError, json.JSONDecodeError) as exc:
+        print(f"error: unable to check report: {exc}", file=sys.stderr)
+        return 2
 
-        if args.json:
-            print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
-        else:
-            _print_human(result)
+    if args.json:
+        print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
+    else:
+        _print_human(result)
 
-        fail_on = {x.strip() for x in args.fail_on.split(",") if x.strip()}
-        bad = [c for c in result.citations if c.verdict in fail_on]
-        return 1 if bad else 0
-
-    parser.print_help()
-    return 2
+    if not result.citations:
+        print("warning: no citations found; nothing was verified", file=sys.stderr)
+        return 1
+    return int(any(c.verdict in requested for c in result.citations))
 
 
 if __name__ == "__main__":
