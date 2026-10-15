@@ -3,7 +3,7 @@
   "citations": [
     {
       "url": "https://peps.python.org/pep-0008/",
-      "verdict": "clean"
+      "verdict": "unchecked"
     },
     {
       "url": "https://fastapi.tiangolo.com/",

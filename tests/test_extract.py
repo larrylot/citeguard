@@ -31,9 +31,9 @@ def test_bare_url():
     assert "pytest" in cites[0].url
 
 
-def test_dedupes():
+def test_repeated_links_are_preserved():
     text = (
         "[A](https://example.com/a) and again [A2](https://example.com/a)"
     )
     cites = extract_citations(text)
-    assert len(cites) == 1
+    assert len(cites) == 2

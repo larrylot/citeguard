@@ -1,118 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CiteGuard — citation verifier for agent Markdown</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CiteGuard: local Markdown citation checks for AI research. Honest verdicts, JSON output, no API keys.">
+  <title>CiteGuard · Check the citations, not just the prose</title>
   <style>
-    :root { color-scheme: light dark; --fg: #1a1a1a; --muted: #555; --border: #ddd; --code-bg: #f4f4f5; --ok: #0a7; --bad: #c33; }
-    @media (prefers-color-scheme: dark) {
-      :root { --fg: #eee; --muted: #aaa; --border: #333; --code-bg: #1e1e22; --ok: #3c9; --bad: #f66; }
-    }
-    body { font-family: ui-sans-serif, system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1.25rem; color: var(--fg); line-height: 1.55; }
-    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
-    .tag { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
-    a { color: inherit; }
-    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85rem; }
-    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.95rem; }
-    th, td { border: 1px solid var(--border); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; }
-    .ok { color: var(--ok); font-weight: 600; }
-    .bad { color: var(--bad); font-weight: 600; }
-    .box { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.25rem 0; }
-    footer { margin-top: 2.5rem; color: var(--muted); font-size: 0.85rem; }
+    :root { color-scheme: light dark; --bg: #fff; --fg: #20242b; --muted:#58616e; --line:#d7dde4; --shade:#f5f7fa; --accent:#19679a; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#11151a; --fg:#f0f2f5; --muted:#afb9c5; --line:#3c4652; --shade:#1d242b; --accent:#81bff0; } }
+    * { box-sizing:border-box; }
+    body { max-width: 810px; margin: 0 auto; padding: 56px 24px; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui,sans-serif; }
+    h1 { font-size:clamp(2rem,5vw,3rem); line-height:1.1; margin:.2em 0; }
+    h2 { font-size:1.35rem; margin:2.2rem 0 .6rem; }
+    .sub { font-size:1.12rem; color:var(--muted); max-width:650px; }
+    .pill { font-size:.8rem; font-weight:650; color:var(--accent); letter-spacing:.07em; text-transform:uppercase; }
+    a { color:var(--accent); }
+    pre { background:var(--shade); padding:18px; border-radius:10px; overflow:auto; border:1px solid var(--line); }
+    code { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.93em; }
+    table { width:100%; border-collapse:collapse; font-size:.92rem; }
+    th,td { text-align:left; border-bottom:1px solid var(--line); padding:10px 8px; vertical-align:top; }
+    th { color:var(--muted); }
+    .note { padding:14px 18px; border-left:3px solid var(--accent); background:var(--shade); border-radius:4px; }
+    footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; color:var(--muted); font-size:.9rem; }
   </style>
 </head>
 <body>
-  <h1>CiteGuard</h1>
-  <p class="tag">Local CLI that verifies citations in agent / deep-research Markdown reports · <a href="https://github.com/larrylot/citeguard">github.com/larrylot/citeguard</a></p>
-
-  <p><code>citeguard check report.md --json</code> returns deterministic per-URL verdicts: resolve, title soft-match, optional claim–source overlap. No API keys. No telemetry. Offline <code>--fixtures</code> mode for CI.</p>
-
-  <div class="box">
-    <strong>Quick demo</strong>
-    <pre>pip install -e .
-citeguard check fixtures/mixed.md --fixtures --json</pre>
-  </div>
-
-  <h2>Output JSON shape</h2>
-  <p>Top-level object from <code>ReportResult.to_dict()</code>:</p>
-  <pre>{
-  "path": "fixtures/mixed.md",
-  "summary": {
-    "clean": 3,
-    "dead": 1,
-    "title_mismatch": 1,
-    "total": 5
-  },
-  "citations": [
-    {
-      "url": "https://docs.github.com/en/actions",
-      "link_text": "GitHub Actions documentation",
-      "kind": "link",
-      "line": 3,
-      "verdict": "clean",
-      "status": 200,
-      "final_url": "https://docs.github.com/en/actions",
-      "page_title": "GitHub Actions documentation - GitHub Docs",
-      "title_score": 1.0,
-      "overlap_score": 0.8,
-      "claim": "GitHub Actions automates workflows in your repository",
-      "error": null,
-      "reasons": ["resolved; title/claim checks passed"]
-    },
-    {
-      "url": "https://example.invalid/dead-citation-404",
-      "link_text": "Vanished paper",
-      "kind": "link",
-      "line": 7,
-      "verdict": "dead",
-      "status": 404,
-      "final_url": "https://example.invalid/dead-citation-404",
-      "page_title": null,
-      "title_score": null,
-      "overlap_score": null,
-      "claim": "A fabricated cite points here: .",
-      "error": "http_404",
-      "reasons": ["http_404"]
-    }
-  ]
-}</pre>
-
-  <h2>Verdicts</h2>
+  <p class="pill">Open source · Python CLI · v0.2.0</p>
+  <h1>Check the citations, not just the prose.</h1>
+  <p class="sub">CiteGuard checks URLs, source titles, redirects and weak claim-to-source word overlap in Markdown research reports. Local, deterministic, no API key or telemetry.</p>
+  <p><a href="https://github.com/larrylot/citeguard">View source on GitHub</a> · <a href="https://github.com/larrylot/citeguard/blob/main/README.md">Quickstart and documentation</a></p>
+  <h2>Install</h2>
+  <pre><code>python -m pip install "git+https://github.com/larrylot/citeguard.git"
+citeguard check research.md --json</code></pre>
+  <p>For an isolated CLI, use <code>pipx install git+https://github.com/larrylot/citeguard.git</code>. Requires Python 3.10 or newer.</p>
+  <h2>What it actually checks</h2>
   <table>
-    <thead><tr><th>verdict</th><th>meaning</th></tr></thead>
-    <tbody>
-      <tr><td><span class="ok">clean</span></td><td>Resolved; title/claim checks passed</td></tr>
-      <tr><td><span class="bad">dead</span></td><td>404 or network failure</td></tr>
-      <tr><td><span class="bad">http_error</span></td><td>Non-success HTTP (e.g. 500)</td></tr>
-      <tr><td><span class="bad">title_mismatch</span></td><td>Link text soft-match vs <code>&lt;title&gt;</code> too low</td></tr>
-      <tr><td><span class="bad">claim_weak</span></td><td>Claim sentence tokens barely appear in page text</td></tr>
-      <tr><td><span class="bad">redirect_suspect</span></td><td>Cross-host redirect without strong title match</td></tr>
-      <tr><td>unresolved</td><td>URL missing from fixtures catalog (fixtures mode only)</td></tr>
-    </tbody>
+    <tr><th>Verdict</th><th>Meaning</th></tr>
+    <tr><td><code>clean</code></td><td>Available lexical checks passed. Not proof that the claim is true.</td></tr>
+    <tr><td><code>dead</code></td><td>Source returned HTTP 404 or 410.</td></tr>
+    <tr><td><code>title_mismatch</code></td><td>Descriptive link text differs from source title.</td></tr>
+    <tr><td><code>claim_weak</code></td><td>Weak word overlap between claim and HTML text.</td></tr>
+    <tr><td><code>redirect_suspect</code></td><td>Redirect to a different host without strong title match.</td></tr>
+    <tr><td><code>unverifiable</code></td><td>DNS/network failure, oversized response or redirects that could not be followed.</td></tr>
+    <tr><td><code>unchecked</code></td><td>Insufficient readable/checkable HTML; includes PDFs.</td></tr>
+    <tr><td><code>blocked</code></td><td>Untrusted address, embedded credentials or unsupported scheme.</td></tr>
+    <tr><td><code>http_error</code></td><td>Other HTTP error such as 403 or 500.</td></tr>
+    <tr><td><code>unresolved</code></td><td>URL absent from the offline fixture catalog.</td></tr>
   </table>
-
-  <h2>Fields cheat-sheet</h2>
-  <table>
-    <thead><tr><th>field</th><th>notes</th></tr></thead>
-    <tbody>
-      <tr><td><code>summary</code></td><td>Counts per verdict + <code>total</code></td></tr>
-      <tr><td><code>citations[].kind</code></td><td><code>link</code> | <code>footnote</code> | <code>bare</code></td></tr>
-      <tr><td><code>title_score</code></td><td>0–1 soft overlap of link text vs page title</td></tr>
-      <tr><td><code>overlap_score</code></td><td>0–1 claim vs page body token overlap (optional; disable with <code>--no-overlap</code>)</td></tr>
-      <tr><td><code>reasons</code></td><td>Human-readable explanation list</td></tr>
-    </tbody>
-  </table>
-
-  <h2>Vs alternatives</h2>
-  <p>Honest comparison (FACT / ASSUMPTION labeled): <a href="vs-alternatives.md">docs/vs-alternatives.md</a> — vs “ask ChatGPT”, LinkChecker, html-proofer, ReportBench and related benches.</p>
-
-  <h2>Benchmarks</h2>
-  <p>Planted CI fixtures: <a href="https://github.com/larrylot/citeguard/tree/main/fixtures"><code>fixtures/</code></a>. Broader failure corpus: <a href="https://github.com/larrylot/citeguard/tree/main/corpus"><code>corpus/</code></a> (Citation Failure Corpus).</p>
-
-  <footer>
-    MIT · Exploration bet · Agent does not post Show HN — see <code>SHOW_HN.md</code> in the repo.
-  </footer>
+  <h2>Predictable CI behavior</h2>
+  <p>Each citation occurrence receives its own result, while repeated URLs share a single HTTP fetch. Output is JSON or human-readable text. Exit 0 means every citation passed; exit 1 means at least one failed or nothing was found; exit 2 means an input error.</p>
+  <pre><code>citeguard check fixtures/clean.md --fixtures
+citeguard check fixtures/dead_link.md --fixtures --json</code></pre>
+  <p>The offline fixture commands run from a repository checkout.</p>
+  <div class="note"><strong>Scope matters.</strong> CiteGuard is not a fact checker or semantic entailment model. A source can contain the same words as a claim and still contradict it. `clean` means only the available heuristic checks passed.</div>
+  <h2>Security and limitations</h2>
+  <p>Private and non-global IP addresses are blocked by default; redirects and HTML body sizes are limited. Application-level DNS checks are not a full SSRF defense, so hosted services must add network-level egress controls. See <a href="https://github.com/larrylot/citeguard/blob/main/SECURITY.md">Security policy</a> and <a href="https://github.com/larrylot/citeguard/blob/main/CHANGELOG.md">Changelog</a>.</p>
+  <footer>MIT license · <a href="https://github.com/larrylot/citeguard/issues">Issues and feature requests</a></footer>
 </body>
 </html>
