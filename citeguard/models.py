@@ -14,6 +14,9 @@ VERDICTS = (
     "claim_weak",
     "redirect_suspect",
     "unresolved",
+    "unverifiable",
+    "unchecked",
+    "blocked",
 )
 
 
