@@ -2,152 +2,121 @@
 
 [![CI](https://github.com/larrylot/citeguard/actions/workflows/ci.yml/badge.svg)](https://github.com/larrylot/citeguard/actions/workflows/ci.yml)
 
+**CiteGuard is a local, explainable citation hygiene checker for Markdown research reports.**
 
-**Local CLI that verifies citations in agent / deep-research Markdown reports.**
+It detects dead URLs, HTTP failures, misleading link titles, cross-host redirects, and weak word overlap between an assertion and the linked HTML page. It checks each **citation occurrence** separately, even if the same URL is reused for different claims. Repeated URLs are downloaded once per report.
 
-`citeguard check report.md` → per-citation verdicts: URL resolve, title/host soft-match, optional claim–source overlap.
+CiteGuard **does not prove that a claim is true or entailed by its source**. Its overlap heuristic cannot identify contradictions, fabricated arguments, or missing references. A `clean` verdict means only that the checks **performed by CiteGuard** passed.
 
-- **No API keys** for core checks
-- **No telemetry**, no SaaS, no account
-- **Offline `--fixtures` mode** for CI
-- MIT licensed
+- No account or API key, no AI model, no tracking or telemetry
+- Python 3.10+; supports offline fixture tests
+- JSON output and predictable process exit codes for CI
+- HTML inspection only: PDFs and non-HTML responses are explicitly `unchecked`
+- Restrictive default treatment of private/internal URLs, redirects, and oversized HTML
 
-> Exploration bet for The Lord (0 SEK). Not a merchant product.
+## Install
 
-## Why not “just ask ChatGPT”?
+CiteGuard 0.2 can be installed from this repository without waiting for PyPI:
 
-| | CiteGuard | Ask ChatGPT / another LLM |
-|--|-----------|---------------------------|
-| Reproducible | Deterministic resolve + scores | Non-deterministic prose |
-| Offline CI | `--fixtures` planted cases | Needs network + model |
-| Cost / keys | Free local HTTP | API key / subscription |
-| Audit trail | JSON verdicts per URL | Chat transcript |
-| Hallucination check on the checker | No LLM in the loop | Can invent “looks fine” |
+```bash
+# Requires Python 3.10+
+python -m pip install "git+https://github.com/larrylot/citeguard.git"
+citeguard --version
+```
 
-CiteGuard does **not** claim to prove a source supports a legal/scientific conclusion. It flags **dead links, title bait, weak overlap, and shady redirects** — the failure modes that show up in agent research dumps.
+For an isolated CLI installation, use `pipx install git+https://github.com/larrylot/citeguard.git` instead. If testing an unmerged branch, append `@fix/citeguard-robustness-20261015` to the Git URL.
+
+From a checkout:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+pytest -q
+```
+
+## Use
+
+```bash
+citeguard check report.md
+citeguard check report.md --json > citation-results.json
+citeguard check report.md --no-overlap
+```
+
+For a deterministic, network-free demo from a **repository checkout**:
+
+```bash
+citeguard check fixtures/clean.md --fixtures
+citeguard check fixtures/dead_link.md --fixtures  # exit 1, expected
+citeguard check fixtures/mixed.md --fixtures --json
+```
+
+`--fixtures` uses a local `fixtures/catalog.json`. A URL missing from the catalog returns `unresolved` and fails by default, instead of silently passing.
+
+### Verdicts
+
+| Verdict | Meaning | Default exit failure |
+|---|---|---|
+| `clean` | Available title/claim heuristics passed. **Not proof of factual support.** | No |
+| `dead` | Source returned 404 or 410 | Yes |
+| `http_error` | Other HTTP failure (403/429/500 etc.) | Yes |
+| `title_mismatch` | Descriptive citation label does not resemble page title | Yes |
+| `claim_weak` | Claim words poorly overlap readable HTML | Yes |
+| `redirect_suspect` | Cross-host redirect without strong title match | Yes |
+| `unresolved` | Citation absent from offline fixture catalog | Yes |
+| `unverifiable` | Network/DNS failure, oversized response, redirect exhaustion | Yes |
+| `unchecked` | Cannot inspect a readable HTML source or meaningful title/claim | Yes |
+| `blocked` | URL scheme, credentials, or private destination disallowed | Yes |
+
+A report with zero detectable citations also exits with code 1 (nothing was checked).
+
+**Exit codes:** `0` = all citations passed, `1` = at least one configured failure (or no citations), `2` = input/CLI error. Override the gate using `--fail-on dead,http_error,blocked` if some unverified statuses are acceptable for your workflow.
+
+### Safe network defaults
+
+```bash
+citeguard check report.md --timeout 10 --max-html-bytes 1048576
+# For trusted internal reports ONLY:
+citeguard check internal-report.md --allow-private
+```
+
+The network checker validates each redirect destination, rejects loopback/private and non-global IPs by default, ignores environment proxy settings, and limits HTML reads to 2 MiB per URL. These are **defense-in-depth protections, not a complete SSRF sandbox**: DNS rebinding and other egress risks remain. Do not run a publicly exposed multi-tenant service without enforced network-level egress restrictions. Read [SECURITY.md](SECURITY.md).
+
+## Use in GitHub Actions
+
+```yaml
+- uses: actions/checkout@v4
+- uses: actions/setup-python@v6
+  with:
+    python-version: "3.12"
+- run: python -m pip install "git+https://github.com/larrylot/citeguard.git"
+- run: citeguard check reports/research.md --json
+```
+
+For repeatable CI runs pin installation to a release tag or commit SHA once published.
 
 ## Agent skill
 
-Portable `SKILL.md` (Cursor / Claude / Codex / agentskills.io format):
-
-- Canonical: [`skill/SKILL.md`](skill/SKILL.md)
-- Cursor mirror: [`.cursor/skills/citeguard/SKILL.md`](.cursor/skills/citeguard/SKILL.md)
-- skills CLI layout: [`skills/citeguard/SKILL.md`](skills/citeguard/SKILL.md)
+The optional [portable agent skill](skill/SKILL.md) documents a verify-after-research workflow:
 
 ```bash
 npx skills add larrylot/citeguard -s citeguard -y
 ```
 
-## Install
+The skill is an instruction file, not an automated citation assertion engine. Mirrored versions are in [`.cursor/skills/`](.cursor/skills/citeguard/SKILL.md) and [`skills/`](skills/citeguard/SKILL.md).
 
-```bash
-cd citeguard
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-```
+## Examples and limitations
 
-## Demo (copy-paste)
+- [Failure corpus](corpus/README.md) provides 20 planted examples for testing.
+- [Synthetic live-network samples](examples/realworld/REPORT.md) demonstrate the types of failures found, **not ground-truth accuracy on real user reports**.
+- [Alternatives](docs/vs-alternatives.md) outlines when conventional link checkers, semantic evaluators, or manual review are better fits.
+- [Demo page](https://larrylot.github.io/citeguard/) shows example output.
+- `fixtures/` contains offline golden tests; run `pytest -q`.
 
-```bash
-# Offline CI-style check on a clean planted report
-citeguard check fixtures/clean.md --fixtures
+Known limits: HTML only, heuristics for English-oriented titles and token overlap, approximate sentence extraction, no semantic entailment, and no search for missing sources. In particular, `clean` does **not** imply factual correctness.
 
-# A bad report (dead links) — exits 1
-citeguard check fixtures/dead_link.md --fixtures
+## Development
 
-# Title-bait SEO farm planted as "asyncio docs"
-citeguard check fixtures/title_mismatch.md --fixtures
+Issues and patches are welcome: [GitHub Issues](https://github.com/larrylot/citeguard/issues). Local tests and GitHub CI use Python 3.10, 3.12, and 3.13. Read [CHANGELOG.md](CHANGELOG.md) for compatibility notes.
 
-# Machine-readable
-citeguard check fixtures/mixed.md --fixtures --json
-```
-
-Example human output:
-
-```
-CiteGuard — fixtures/mixed.md
-Summary: {'clean': 3, 'dead': 1, 'title_mismatch': 1, 'total': 5}
-------------------------------------------------------------
-[OK] L3 https://docs.github.com/en/actions
-...
-[DEAD] L7 https://example.invalid/dead-citation-404
-...
-[TITLE] L9 https://example.invalid/python-asyncio-guide
-```
-
-Live network check (no fixtures):
-
-```bash
-citeguard check path/to/agent-report.md
-citeguard check path/to/agent-report.md --json --no-overlap
-```
-
-## Verdicts
-
-| Verdict | Meaning |
-|---------|---------|
-| `clean` | Resolved; title/claim checks passed |
-| `dead` | 404 or network failure |
-| `http_error` | Non-success HTTP (e.g. 500) |
-| `title_mismatch` | Link text soft-match vs `<title>` too low |
-| `claim_weak` | Claim sentence tokens barely appear in page text |
-| `redirect_suspect` | Cross-host redirect without strong title match |
-| `unresolved` | URL missing from fixtures catalog (fixtures mode only) |
-
-## Real-world evidence dumps
-
-Synthetic agent-style Markdown under [`examples/realworld/`](examples/realworld/) (dead links, DNS failures, title bait on `example.com`, plus working RFC / Example Domain controls).
-
-- Findings table (FACT counts): [`examples/realworld/REPORT.md`](examples/realworld/REPORT.md)
-- Per-dump JSON + text: [`examples/realworld/out/`](examples/realworld/out/)
-- Live demo page: https://larrylot.github.io/citeguard/
-
-## Citation Failure Corpus
-
-[`corpus/`](corpus/) — 20 short public-domain-style fake agent-research Markdown snippets with planted failures (`example.invalid`, title bait via `example.com` / `httpbin.org`). Documented for benchmarks. See [`corpus/README.md`](corpus/README.md).
-
-## Docs / demo page
-
-One-page JSON output demo: [`docs/index.html`](docs/index.html) (GitHub Pages: https://larrylot.github.io/citeguard/).
-
-- [CiteGuard vs alternatives](docs/vs-alternatives.md) — honest comparison vs “ask ChatGPT”, LinkChecker, html-proofer, ReportBench (FACT / ASSUMPTION labeled)
-
-## Docker
-
-```bash
-docker build -t citeguard .
-docker run --rm -v "$PWD":/data -w /data citeguard check fixtures/mixed.md --fixtures
-```
-
-## Fixtures
-
-`fixtures/` ships **9** Markdown reports + `*.expected.json` + HTML pages + `catalog.json` for offline resolve:
-
-- clean cites, dead links, title mismatch, claim–source mismatch, redirect suspect, HTTP error, footnotes, mixed, bare URLs
-
-```bash
-pytest -q
-# accuracy gate: ≥80% resolve+classify on fixtures
-```
-
-## Waitlist (hosted / batch API later)
-
-Free form — **HUMAN SETUP** ≤10 min: see [`WAITLIST.md`](WAITLIST.md). Paste the public URL below when ready:
-
-> Waitlist: `<!-- HUMAN: paste Tally or Google Form URL -->`
-
-## Posts (human sends)
-
-- [`SHOW_HN.md`](SHOW_HN.md) — Show HN draft
-- [`POSTS.md`](POSTS.md) — Reddit / LinkedIn templates
-
-Agent does **not** post or outreach.
-
-## Status / kill
-
-See [`STATUS.md`](STATUS.md). Kill if &lt;10 stars **and** &lt;10 waitlist after 7 days with ≥1 human public post, or fixture accuracy &lt;80%, or HN reads it as a chatbot wrapper.
-
-## License
-
-MIT — see [`LICENSE`](LICENSE).
+**License:** [MIT](LICENSE). No hosted product or public API is offered.
