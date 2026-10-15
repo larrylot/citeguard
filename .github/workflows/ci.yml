@@ -6,23 +6,40 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
-      - name: Pytest (fixtures accuracy gate)
+          python -m pip install -e ".[dev]"
+      - name: Test code and fixture classifications
         run: pytest -q
-      - name: CLI --json smoke (fixtures)
-        run: citeguard check fixtures/clean.md --fixtures --json
+      - name: Test CLI and JSON output
+        run: |
+          citeguard --version
+          citeguard check fixtures/clean.md --fixtures --json > /tmp/citeguard.json
+          python -m json.tool /tmp/citeguard.json > /dev/null
+          if citeguard check fixtures/dead_link.md --fixtures --json; then
+            echo "Expected fixture failure but got exit 0"
+            exit 1
+          fi
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install build
+          python -m build
+          python -m pip install --force-reinstall dist/*.whl
+          python -m citeguard --version
