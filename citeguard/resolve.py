@@ -181,7 +181,11 @@ def resolve_url(
                             )
                         chunks.append(chunk)
                     encoding = response.encoding or "utf-8"
-                    body = b"".join(chunks).decode(encoding, errors="replace")
+                    raw = b"".join(chunks)
+                    try:
+                        body = raw.decode(encoding, errors="replace")
+                    except LookupError:
+                        body = raw.decode("utf-8", errors="replace")
                     return ResolveResult(
                         url=url, ok=True, status=status, final_url=current,
                         content_type=ctype, body=body,
