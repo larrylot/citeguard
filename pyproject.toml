@@ -1,6 +1,6 @@
 [project]
 name = "citeguard"
-version = "0.1.0"
+version = "0.2.0"
 description = "Local CLI that verifies citations in agent/deep-research Markdown reports"
 readme = "README.md"
 license = { text = "MIT" }
@@ -8,8 +8,9 @@ requires-python = ">=3.10"
 authors = [{ name = "Lars Örtegren" }]
 keywords = ["citations", "markdown", "agents", "research", "verification"]
 dependencies = [
-  "requests>=2.31.0",
-  "beautifulsoup4>=4.12.0",
+  "requests>=2.32.4,<3",
+  "beautifulsoup4>=4.12,<5",
+  "markdown-it-py>=3,<5",
 ]
 
 [project.optional-dependencies]
