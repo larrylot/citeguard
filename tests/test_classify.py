@@ -12,10 +12,10 @@ def test_dead_404():
     assert v.verdict == "dead"
 
 
-def test_network_dead():
+def test_network_unverifiable():
     r = ResolveResult(url="https://x", ok=False, error="network:ConnectionError")
     v = classify(_cit(), r)
-    assert v.verdict == "dead"
+    assert v.verdict == "unverifiable"
 
 
 def test_http_error():
