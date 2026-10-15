@@ -42,12 +42,23 @@ def _claim_near(lines: list[str], line_idx: int, link_text: str = "") -> str:
     return ""
 
 
-def _location(lines: list[str], start: int, end: int, url: str, label: str) -> int:
-    """Best-effort line for MarkdownIt inline tokens (line map is block-scoped)."""
-    for idx in range(start, min(len(lines), max(start + 1, end))):
-        if url in lines[idx] or (label and f"[{label}]" in lines[idx]):
-            return idx
-    return start
+def _location(
+    lines: list[str], start: int, end: int, url: str, label: str,
+    cursor_line: int, cursor_col: int,
+) -> tuple[int, int]:
+    """Find the next occurrence in document order, even for repeated URLs."""
+    end = min(len(lines), max(start + 1, end))
+    for idx in range(cursor_line, end):
+        offset = cursor_col if idx == cursor_line else 0
+        options = [url]
+        if label:
+            options.append(f"[{label}]")
+        positions = [lines[idx].find(x, offset) for x in options]
+        positions = [p for p in positions if p >= 0]
+        if positions:
+            pos = min(positions)
+            return idx, pos + len(url)
+    return start, 0
 
 
 def extract_citations(text: str) -> list[Citation]:
@@ -68,6 +79,7 @@ def extract_citations(text: str) -> list[Citation]:
         children = block.children or []
         active_url: str | None = None
         label_parts: list[str] = []
+        cursor_line, cursor_col = start, 0
 
         for child in children:
             if child.type == "link_open":
@@ -76,9 +88,14 @@ def extract_citations(text: str) -> list[Citation]:
             elif child.type == "link_close":
                 if active_url and active_url.lower().startswith(("http://", "https://")):
                     label = "".join(label_parts)
-                    idx = _location(lines, start, end, active_url, label)
+                    idx, cursor_col = _location(
+                        lines, start, end, active_url, label, cursor_line, cursor_col,
+                    )
+                    cursor_line = idx
+                    footnote_label = bool(re.fullmatch(r"\^?[0-9]+", label))
                     found.append(Citation(
-                        url=active_url, link_text=label, kind="link",
+                        url=active_url, link_text="" if footnote_label else label,
+                        kind="footnote" if footnote_label else "link",
                         line=idx + 1, claim=_claim_near(lines, idx, label),
                     ))
                 active_url = None
@@ -89,7 +106,10 @@ def extract_citations(text: str) -> list[Citation]:
                 else:
                     for match in BARE_URL.finditer(child.content):
                         url = match.group(0).rstrip(".,;!?:")
-                        idx = _location(lines, start, end, url, "")
+                        idx, cursor_col = _location(
+                            lines, start, end, url, "", cursor_line, cursor_col,
+                        )
+                        cursor_line = idx
                         found.append(Citation(
                             url=url, kind="bare", line=idx + 1,
                             claim=_claim_near(lines, idx),
