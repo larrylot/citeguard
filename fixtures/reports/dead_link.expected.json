@@ -7,7 +7,7 @@
     },
     {
       "url": "https://example.invalid/network-fail",
-      "verdict": "dead"
+      "verdict": "unverifiable"
     }
   ]
 }
