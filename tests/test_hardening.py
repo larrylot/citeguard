@@ -184,3 +184,11 @@ def test_fixture_catalog_cannot_traverse(tmp_path):
         "https://example.org": {"status": 200, "page": "../../secret.txt"}
     }))
     assert FixtureStore.load(root).get("https://example.org").body is None
+
+def test_invalid_http_charset_uses_utf8(monkeypatch):
+    monkeypatch.setattr("citeguard.resolve._validate_target", lambda *args, **kwargs: None)
+    response = FakeResponse(body=b"<html><title>Example</title><body>Valid</body></html>")
+    response.encoding = "this-encoding-does-not-exist"
+    resolved = resolve_url("https://example.org", session=FakeSession(response))
+    assert resolved.ok
+    assert "Valid" in (resolved.body or "")
